@@ -1,4 +1,15 @@
-[![Build Status](https://github.com/dart-lang/http/workflows/Dart%20CI/badge.svg)](https://github.com/dart-lang/http/actions?query=workflow%3A"Dart+CI"+branch%3Amaster)
+# daphne-dart-http
+
+**This is a fork of the dart-http package.**
+
+- The `feat/cancellation` branch is a candidate for merging additional features
+into the `dart-http` package.
+
+- The `master` branch is a forked and renamed version of the dart-http package
+containing the additional features, available on [pub.dev](https://pub.dev/) as
+`daphne_http`.
+
+# dart-http
 
 A composable, Future-based library for making HTTP requests.
 
