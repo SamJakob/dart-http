@@ -7,8 +7,8 @@ library;
 
 import 'dart:async';
 
-import 'package:http/browser_client.dart';
-import 'package:http/http.dart' as http;
+import 'package:daphne_http/browser_client.dart';
+import 'package:daphne_http/http.dart' as http;
 import 'package:test/test.dart';
 
 import 'utils.dart';
@@ -34,8 +34,7 @@ void main() {
     var url = Uri.http('http.invalid', '');
     var request = http.StreamedRequest('POST', url);
 
-    expect(
-        client.send(request), throwsClientException('XMLHttpRequest error.'));
+    expect(client.send(request), throwsClientException('XMLHttpRequest error.'));
 
     request.sink.add('{"hello": "world"}'.codeUnits);
     request.sink.close();

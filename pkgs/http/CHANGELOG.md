@@ -1,3 +1,7 @@
+## 1.2.1
+
+* (Daphne) Strip out features not relevant to the HTTP core.
+
 ## 1.2.0
 
 * Add a `RequestController` class which can be used to manage the lifecycle of an 
@@ -47,7 +51,7 @@ HTTP request (e.g., for timeouts and request cancellation).
 
 ## 0.13.2
 
-* Add `package:http/retry.dart` with `RetryClient`. This is the same
+* Add `package:daphne_http/retry.dart` with `RetryClient`. This is the same
   implementation as `package:http_retry` which will be discontinued.
 
 ## 0.13.1
@@ -95,13 +99,13 @@ HTTP request (e.g., for timeouts and request cancellation).
 * The regular `Client` factory constructor is now usable anywhere that `dart:io`
   or `dart:html` are available, and will give you an `IoClient` or
   `BrowserClient` respectively.
-* The `package:http/http.dart` import is now safe to use on the web (or
+* The `package:daphne_http/http.dart` import is now safe to use on the web (or
   anywhere that either `dart:io` or `dart:html` are available).
 
 ### Breaking Changes
 
 * In order to use or reference the `IoClient` directly, you will need to import
-  the new `package:http/io_client.dart` import. This is typically only necessary
+  the new `package:daphne_http/io_client.dart` import. This is typically only necessary
   if you are passing a custom `HttpClient` instance to the constructor, in which
   case you are already giving up support for web.
 
@@ -211,7 +215,7 @@ HTTP request (e.g., for timeouts and request cancellation).
 ## 0.11.0
 
 * The package no longer depends on `dart:io`. The `BrowserClient` class in
-  `package:http/browser_client.dart` can now be used to make requests on the
+  `package:daphne_http/browser_client.dart` can now be used to make requests on the
   browser.
 
 * Change `MultipartFile.contentType` from `dart:io`'s `ContentType` type to

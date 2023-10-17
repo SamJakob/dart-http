@@ -5,7 +5,7 @@
 @TestOn('vm')
 library;
 
-import 'package:http/http.dart' as http;
+import 'package:daphne_http/http.dart' as http;
 import 'package:test/test.dart';
 
 import '../utils.dart';
@@ -31,45 +31,24 @@ void main() {
     });
 
     test('head runWithClient', () {
-      expect(
-          () => http.runWithClient(() => http.head(serverUrl), TestClient.new),
-          throwsUnimplementedError);
+      expect(() => http.runWithClient(() => http.head(serverUrl), TestClient.new), throwsUnimplementedError);
     });
 
     test('get', () async {
-      var response = await http.get(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': 'Dart'
-      });
+      var response = await http.get(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'});
       expect(response.statusCode, equals(200));
       expect(
           response.body,
-          parse(allOf(
-              containsPair('method', 'GET'),
-              containsPair('path', '/'),
-              containsPair(
-                  'headers',
-                  allOf(
-                      containsPair('accept-encoding', ['gzip']),
-                      containsPair('user-agent', ['Dart']),
-                      containsPair('x-random-header', ['Value']),
-                      containsPair('x-other-header', ['Other Value']))))));
+          parse(allOf(containsPair('method', 'GET'), containsPair('path', '/'),
+              containsPair('headers', allOf(containsPair('accept-encoding', ['gzip']), containsPair('user-agent', ['Dart']), containsPair('x-random-header', ['Value']), containsPair('x-other-header', ['Other Value']))))));
     });
 
     test('get runWithClient', () {
-      expect(
-          () => http.runWithClient(() => http.get(serverUrl), TestClient.new),
-          throwsUnimplementedError);
+      expect(() => http.runWithClient(() => http.get(serverUrl), TestClient.new), throwsUnimplementedError);
     });
 
     test('post', () async {
-      var response = await http.post(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'Content-Type': 'text/plain',
-        'User-Agent': 'Dart'
-      });
+      var response = await http.post(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'Content-Type': 'text/plain', 'User-Agent': 'Dart'});
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -88,13 +67,7 @@ void main() {
     });
 
     test('post with string', () async {
-      var response = await http.post(serverUrl,
-          headers: {
-            'X-Random-Header': 'Value',
-            'X-Other-Header': 'Other Value',
-            'User-Agent': 'Dart'
-          },
-          body: 'request body');
+      var response = await http.post(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'}, body: 'request body');
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -114,17 +87,7 @@ void main() {
     });
 
     test('post with bytes', () async {
-      var response = await http.post(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': 'Dart'
-      }, body: [
-        104,
-        101,
-        108,
-        108,
-        111
-      ]);
+      var response = await http.post(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'}, body: [104, 101, 108, 108, 111]);
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -143,14 +106,7 @@ void main() {
     });
 
     test('post with fields', () async {
-      var response = await http.post(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': 'Dart'
-      }, body: {
-        'some-field': 'value',
-        'other-field': 'other value'
-      });
+      var response = await http.post(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'}, body: {'some-field': 'value', 'other-field': 'other value'});
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -158,9 +114,7 @@ void main() {
             'method': 'POST',
             'path': '/',
             'headers': {
-              'content-type': [
-                'application/x-www-form-urlencoded; charset=utf-8'
-              ],
+              'content-type': ['application/x-www-form-urlencoded; charset=utf-8'],
               'content-length': ['40'],
               'accept-encoding': ['gzip'],
               'user-agent': ['Dart'],
@@ -172,19 +126,11 @@ void main() {
     });
 
     test('post runWithClient', () {
-      expect(
-          () => http.runWithClient(
-              () => http.post(serverUrl, body: 'testing'), TestClient.new),
-          throwsUnimplementedError);
+      expect(() => http.runWithClient(() => http.post(serverUrl, body: 'testing'), TestClient.new), throwsUnimplementedError);
     });
 
     test('put', () async {
-      var response = await http.put(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'Content-Type': 'text/plain',
-        'User-Agent': 'Dart'
-      });
+      var response = await http.put(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'Content-Type': 'text/plain', 'User-Agent': 'Dart'});
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -203,13 +149,7 @@ void main() {
     });
 
     test('put with string', () async {
-      var response = await http.put(serverUrl,
-          headers: {
-            'X-Random-Header': 'Value',
-            'X-Other-Header': 'Other Value',
-            'User-Agent': 'Dart'
-          },
-          body: 'request body');
+      var response = await http.put(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'}, body: 'request body');
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -229,17 +169,7 @@ void main() {
     });
 
     test('put with bytes', () async {
-      var response = await http.put(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': 'Dart'
-      }, body: [
-        104,
-        101,
-        108,
-        108,
-        111
-      ]);
+      var response = await http.put(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'}, body: [104, 101, 108, 108, 111]);
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -258,14 +188,7 @@ void main() {
     });
 
     test('put with fields', () async {
-      var response = await http.put(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': 'Dart'
-      }, body: {
-        'some-field': 'value',
-        'other-field': 'other value'
-      });
+      var response = await http.put(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'}, body: {'some-field': 'value', 'other-field': 'other value'});
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -273,9 +196,7 @@ void main() {
             'method': 'PUT',
             'path': '/',
             'headers': {
-              'content-type': [
-                'application/x-www-form-urlencoded; charset=utf-8'
-              ],
+              'content-type': ['application/x-www-form-urlencoded; charset=utf-8'],
               'content-length': ['40'],
               'accept-encoding': ['gzip'],
               'user-agent': ['Dart'],
@@ -287,19 +208,11 @@ void main() {
     });
 
     test('put runWithClient', () {
-      expect(
-          () => http.runWithClient(
-              () => http.put(serverUrl, body: 'testing'), TestClient.new),
-          throwsUnimplementedError);
+      expect(() => http.runWithClient(() => http.put(serverUrl, body: 'testing'), TestClient.new), throwsUnimplementedError);
     });
 
     test('patch', () async {
-      var response = await http.patch(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'Content-Type': 'text/plain',
-        'User-Agent': 'Dart'
-      });
+      var response = await http.patch(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'Content-Type': 'text/plain', 'User-Agent': 'Dart'});
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -318,13 +231,7 @@ void main() {
     });
 
     test('patch with string', () async {
-      var response = await http.patch(serverUrl,
-          headers: {
-            'X-Random-Header': 'Value',
-            'X-Other-Header': 'Other Value',
-            'User-Agent': 'Dart'
-          },
-          body: 'request body');
+      var response = await http.patch(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'}, body: 'request body');
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -344,17 +251,7 @@ void main() {
     });
 
     test('patch with bytes', () async {
-      var response = await http.patch(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': 'Dart'
-      }, body: [
-        104,
-        101,
-        108,
-        108,
-        111
-      ]);
+      var response = await http.patch(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'}, body: [104, 101, 108, 108, 111]);
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -373,14 +270,7 @@ void main() {
     });
 
     test('patch with fields', () async {
-      var response = await http.patch(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': 'Dart'
-      }, body: {
-        'some-field': 'value',
-        'other-field': 'other value'
-      });
+      var response = await http.patch(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'}, body: {'some-field': 'value', 'other-field': 'other value'});
       expect(response.statusCode, equals(200));
       expect(
           response.body,
@@ -388,9 +278,7 @@ void main() {
             'method': 'PATCH',
             'path': '/',
             'headers': {
-              'content-type': [
-                'application/x-www-form-urlencoded; charset=utf-8'
-              ],
+              'content-type': ['application/x-www-form-urlencoded; charset=utf-8'],
               'content-length': ['40'],
               'accept-encoding': ['gzip'],
               'user-agent': ['Dart'],
@@ -402,51 +290,24 @@ void main() {
     });
 
     test('delete', () async {
-      var response = await http.delete(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': 'Dart'
-      });
+      var response = await http.delete(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'});
       expect(response.statusCode, equals(200));
       expect(
           response.body,
-          parse(allOf(
-              containsPair('method', 'DELETE'),
-              containsPair('path', '/'),
-              containsPair(
-                  'headers',
-                  allOf(
-                      containsPair('accept-encoding', ['gzip']),
-                      containsPair('user-agent', ['Dart']),
-                      containsPair('x-random-header', ['Value']),
-                      containsPair('x-other-header', ['Other Value']))))));
+          parse(allOf(containsPair('method', 'DELETE'), containsPair('path', '/'),
+              containsPair('headers', allOf(containsPair('accept-encoding', ['gzip']), containsPair('user-agent', ['Dart']), containsPair('x-random-header', ['Value']), containsPair('x-other-header', ['Other Value']))))));
     });
 
     test('patch runWithClient', () {
-      expect(
-          () => http.runWithClient(
-              () => http.patch(serverUrl, body: 'testing'), TestClient.new),
-          throwsUnimplementedError);
+      expect(() => http.runWithClient(() => http.patch(serverUrl, body: 'testing'), TestClient.new), throwsUnimplementedError);
     });
 
     test('read', () async {
-      var response = await http.read(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': 'Dart'
-      });
+      var response = await http.read(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'});
       expect(
           response,
-          parse(allOf(
-              containsPair('method', 'GET'),
-              containsPair('path', '/'),
-              containsPair(
-                  'headers',
-                  allOf(
-                      containsPair('accept-encoding', ['gzip']),
-                      containsPair('user-agent', ['Dart']),
-                      containsPair('x-random-header', ['Value']),
-                      containsPair('x-other-header', ['Other Value']))))));
+          parse(allOf(containsPair('method', 'GET'), containsPair('path', '/'),
+              containsPair('headers', allOf(containsPair('accept-encoding', ['gzip']), containsPair('user-agent', ['Dart']), containsPair('x-random-header', ['Value']), containsPair('x-other-header', ['Other Value']))))));
     });
 
     test('read throws an error for a 4** status code', () {
@@ -454,42 +315,24 @@ void main() {
     });
 
     test('read runWithClient', () {
-      expect(
-          () => http.runWithClient(() => http.read(serverUrl), TestClient.new),
-          throwsUnimplementedError);
+      expect(() => http.runWithClient(() => http.read(serverUrl), TestClient.new), throwsUnimplementedError);
     });
 
     test('readBytes', () async {
-      var bytes = await http.readBytes(serverUrl, headers: {
-        'X-Random-Header': 'Value',
-        'X-Other-Header': 'Other Value',
-        'User-Agent': 'Dart'
-      });
+      var bytes = await http.readBytes(serverUrl, headers: {'X-Random-Header': 'Value', 'X-Other-Header': 'Other Value', 'User-Agent': 'Dart'});
 
       expect(
           String.fromCharCodes(bytes),
-          parse(allOf(
-              containsPair('method', 'GET'),
-              containsPair('path', '/'),
-              containsPair(
-                  'headers',
-                  allOf(
-                      containsPair('accept-encoding', ['gzip']),
-                      containsPair('user-agent', ['Dart']),
-                      containsPair('x-random-header', ['Value']),
-                      containsPair('x-other-header', ['Other Value']))))));
+          parse(allOf(containsPair('method', 'GET'), containsPair('path', '/'),
+              containsPair('headers', allOf(containsPair('accept-encoding', ['gzip']), containsPair('user-agent', ['Dart']), containsPair('x-random-header', ['Value']), containsPair('x-other-header', ['Other Value']))))));
     });
 
     test('readBytes throws an error for a 4** status code', () {
-      expect(
-          http.readBytes(serverUrl.resolve('/error')), throwsClientException());
+      expect(http.readBytes(serverUrl.resolve('/error')), throwsClientException());
     });
 
     test('readBytes runWithClient', () {
-      expect(
-          () => http.runWithClient(
-              () => http.readBytes(serverUrl), TestClient.new),
-          throwsUnimplementedError);
+      expect(() => http.runWithClient(() => http.readBytes(serverUrl), TestClient.new), throwsUnimplementedError);
     });
   });
 }

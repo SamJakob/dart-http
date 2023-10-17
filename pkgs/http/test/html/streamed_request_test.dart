@@ -7,8 +7,8 @@ library;
 
 import 'dart:async';
 
-import 'package:http/browser_client.dart';
-import 'package:http/http.dart' as http;
+import 'package:daphne_http/browser_client.dart';
+import 'package:daphne_http/http.dart' as http;
 import 'package:test/test.dart';
 
 import 'utils.dart';
@@ -23,8 +23,7 @@ void main() {
 
       final response = await BrowserClient().send(request);
 
-      expect(await response.stream.toBytes(),
-          equals([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+      expect(await response.stream.toBytes(), equals([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
     });
 
     test("works when it's not set", () async {
@@ -33,8 +32,7 @@ void main() {
       unawaited(request.sink.close());
 
       final response = await BrowserClient().send(request);
-      expect(await response.stream.toBytes(),
-          equals([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
+      expect(await response.stream.toBytes(), equals([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]));
     });
   }, skip: 'Need to fix server tests for browser');
 }

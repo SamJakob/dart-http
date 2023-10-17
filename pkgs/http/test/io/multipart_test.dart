@@ -7,7 +7,7 @@ library;
 
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
+import 'package:daphne_http/http.dart' as http;
 import 'package:test/test.dart';
 
 import '../utils.dart';

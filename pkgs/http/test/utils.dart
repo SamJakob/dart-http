@@ -4,7 +4,7 @@
 
 import 'dart:convert';
 
-import 'package:http/http.dart' as http;
+import 'package:daphne_http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:test/test.dart';
 
@@ -63,8 +63,7 @@ class _Parse extends Matcher {
   }
 
   @override
-  Description describe(Description description) =>
-      description.add('parses to a value that ').addDescriptionOf(_matcher);
+  Description describe(Description description) => description.add('parses to a value that ').addDescriptionOf(_matcher);
 }
 
 /// A matcher that validates the body of a multipart request after finalization.
@@ -93,17 +92,14 @@ class _BodyMatches extends Matcher {
     var body = utf8.decode(bodyBytes);
     var contentType = MediaType.parse(item.headers['content-type']!);
     var boundary = contentType.parameters['boundary']!;
-    var expected = cleanUpLiteral(_pattern)
-        .replaceAll('\n', '\r\n')
-        .replaceAll('{{boundary}}', boundary);
+    var expected = cleanUpLiteral(_pattern).replaceAll('\n', '\r\n').replaceAll('{{boundary}}', boundary);
 
     expect(body, equals(expected));
     expect(item.contentLength, equals(bodyBytes.length));
   }
 
   @override
-  Description describe(Description description) =>
-      description.add('has a body that matches "$_pattern"');
+  Description describe(Description description) => description.add('has a body that matches "$_pattern"');
 }
 
 /// A matcher that matches function or future that throws a

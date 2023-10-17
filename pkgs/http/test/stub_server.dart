@@ -6,8 +6,8 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:http/http.dart';
-import 'package:http/src/utils.dart';
+import 'package:daphne_http/http.dart';
+import 'package:daphne_http/src/utils.dart';
 import 'package:stream_channel/stream_channel.dart';
 
 void hybridMain(StreamChannel<dynamic> channel) async {
@@ -55,19 +55,16 @@ void hybridMain(StreamChannel<dynamic> channel) async {
 
     var requestBodyBytes = await ByteStream(request).toBytes();
     var encodingName = request.uri.queryParameters['response-encoding'];
-    var outputEncoding =
-        encodingName == null ? ascii : requiredEncodingForCharset(encodingName);
+    var outputEncoding = encodingName == null ? ascii : requiredEncodingForCharset(encodingName);
 
-    response.headers.contentType =
-        ContentType('application', 'json', charset: outputEncoding.name);
+    response.headers.contentType = ContentType('application', 'json', charset: outputEncoding.name);
     response.headers.set('single', 'value');
 
     dynamic requestBody;
     if (requestBodyBytes.isEmpty) {
       requestBody = null;
     } else if (request.headers.contentType?.charset != null) {
-      var encoding =
-          requiredEncodingForCharset(request.headers.contentType!.charset!);
+      var encoding = requiredEncodingForCharset(request.headers.contentType!.charset!);
       requestBody = encoding.decode(requestBodyBytes);
     } else {
       requestBody = requestBodyBytes;
