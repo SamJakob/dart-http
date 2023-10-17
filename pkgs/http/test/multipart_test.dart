@@ -30,7 +30,8 @@ void main() {
     var request = http.MultipartRequest('POST', dummyUrl);
     request.fields['field1'] = 'value1';
     request.fields['field2'] = 'value2';
-    request.files.add(http.MultipartFile.fromString('file1', 'contents1', filename: 'filename1.txt'));
+    request.files.add(http.MultipartFile.fromString('file1', 'contents1',
+        filename: 'filename1.txt'));
     request.files.add(http.MultipartFile.fromString('file2', 'contents2'));
 
     expect(request, bodyMatches('''
@@ -112,7 +113,8 @@ void main() {
 
   test('with a unicode filename', () {
     var request = http.MultipartRequest('POST', dummyUrl);
-    request.files.add(http.MultipartFile.fromString('file', 'contents', filename: 'fïlēname.txt'));
+    request.files.add(http.MultipartFile.fromString('file', 'contents',
+        filename: 'fïlēname.txt'));
 
     expect(request, bodyMatches('''
         --{{boundary}}
@@ -126,7 +128,8 @@ void main() {
 
   test('with a filename with newlines', () {
     var request = http.MultipartRequest('POST', dummyUrl);
-    request.files.add(http.MultipartFile.fromString('file', 'contents', filename: 'foo\nbar\rbaz\r\nbang'));
+    request.files.add(http.MultipartFile.fromString('file', 'contents',
+        filename: 'foo\nbar\rbaz\r\nbang'));
 
     expect(request, bodyMatches('''
         --{{boundary}}
@@ -140,7 +143,8 @@ void main() {
 
   test('with a filename with a quote', () {
     var request = http.MultipartRequest('POST', dummyUrl);
-    request.files.add(http.MultipartFile.fromString('file', 'contents', filename: 'foo"bar'));
+    request.files.add(
+        http.MultipartFile.fromString('file', 'contents', filename: 'foo"bar'));
 
     expect(request, bodyMatches('''
         --{{boundary}}
@@ -154,7 +158,8 @@ void main() {
 
   test('with a string file with a content-type but no charset', () {
     var request = http.MultipartRequest('POST', dummyUrl);
-    var file = http.MultipartFile.fromString('file', '{"hello": "world"}', contentType: MediaType('application', 'json'));
+    var file = http.MultipartFile.fromString('file', '{"hello": "world"}',
+        contentType: MediaType('application', 'json'));
     request.files.add(file);
 
     expect(request, bodyMatches('''
@@ -170,7 +175,8 @@ void main() {
   test('with a file with a iso-8859-1 body', () {
     var request = http.MultipartRequest('POST', dummyUrl);
     // "Ã¥" encoded as ISO-8859-1 and then read as UTF-8 results in "å".
-    var file = http.MultipartFile.fromString('file', 'non-ascii: "Ã¥"', contentType: MediaType('text', 'plain', {'charset': 'iso-8859-1'}));
+    var file = http.MultipartFile.fromString('file', 'non-ascii: "Ã¥"',
+        contentType: MediaType('text', 'plain', {'charset': 'iso-8859-1'}));
     request.files.add(file);
 
     expect(request, bodyMatches('''
@@ -235,7 +241,8 @@ void main() {
   });
 
   test('with a file that has an error', () async {
-    var file = http.MultipartFile('file', Future<List<int>>.error('error').asStream(), 1);
+    var file = http.MultipartFile(
+        'file', Future<List<int>>.error('error').asStream(), 1);
     var request = http.MultipartRequest('POST', dummyUrl)..files.add(file);
     expect(request.finalize().drain<void>(), throwsA('error'));
   });

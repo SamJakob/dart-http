@@ -34,7 +34,8 @@ void main() {
     var url = Uri.http('http.invalid', '');
     var request = http.StreamedRequest('POST', url);
 
-    expect(client.send(request), throwsClientException('XMLHttpRequest error.'));
+    expect(
+        client.send(request), throwsClientException('XMLHttpRequest error.'));
 
     request.sink.add('{"hello": "world"}'.codeUnits);
     request.sink.close();

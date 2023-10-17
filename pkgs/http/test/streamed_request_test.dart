@@ -26,7 +26,8 @@ void main() {
   });
   group('#method', () {
     test('must be a token', () {
-      expect(() => http.StreamedRequest('SUPER LLAMA', dummyUrl), throwsArgumentError);
+      expect(() => http.StreamedRequest('SUPER LLAMA', dummyUrl),
+          throwsArgumentError);
     });
   });
 }

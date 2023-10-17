@@ -41,7 +41,8 @@ void main() {
   });
 
   test('without redirects', () async {
-    final request = http.Request('GET', serverUrl.resolve('/redirect'))..followRedirects = false;
+    final request = http.Request('GET', serverUrl.resolve('/redirect'))
+      ..followRedirects = false;
     final response = await request.send();
 
     expect(response.statusCode, equals(302));
@@ -57,7 +58,11 @@ void main() {
   });
 
   test('exceeding max redirects', () async {
-    final request = http.Request('GET', serverUrl.resolve('/loop?1'))..maxRedirects = 2;
-    expect(request.send(), throwsA(isA<http.ClientException>().having((e) => e.message, 'message', 'Redirect limit exceeded')));
+    final request = http.Request('GET', serverUrl.resolve('/loop?1'))
+      ..maxRedirects = 2;
+    expect(
+        request.send(),
+        throwsA(isA<http.ClientException>()
+            .having((e) => e.message, 'message', 'Redirect limit exceeded')));
   });
 }

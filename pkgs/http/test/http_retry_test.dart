@@ -11,19 +11,24 @@ import 'package:test/test.dart';
 void main() {
   group("doesn't retry when", () {
     test('a request has a non-503 error code', () async {
-      final client = RetryClient(MockClient(expectAsync1((_) async => Response('', 502), count: 1)));
+      final client = RetryClient(
+          MockClient(expectAsync1((_) async => Response('', 502), count: 1)));
       final response = await client.get(Uri.http('example.org', ''));
       expect(response.statusCode, equals(502));
     });
 
     test("a request doesn't match when()", () async {
-      final client = RetryClient(MockClient(expectAsync1((_) async => Response('', 503), count: 1)), when: (_) => false);
+      final client = RetryClient(
+          MockClient(expectAsync1((_) async => Response('', 503), count: 1)),
+          when: (_) => false);
       final response = await client.get(Uri.http('example.org', ''));
       expect(response.statusCode, equals(503));
     });
 
     test('retries is 0', () async {
-      final client = RetryClient(MockClient(expectAsync1((_) async => Response('', 503), count: 1)), retries: 0);
+      final client = RetryClient(
+          MockClient(expectAsync1((_) async => Response('', 503), count: 1)),
+          retries: 0);
       final response = await client.get(Uri.http('example.org', ''));
       expect(response.statusCode, equals(503));
     });
@@ -47,7 +52,8 @@ void main() {
     final client = RetryClient(
         MockClient(expectAsync1((request) async {
           count++;
-          return Response('', 503, headers: {'retry': count < 2 ? 'true' : 'false'});
+          return Response('', 503,
+              headers: {'retry': count < 2 ? 'true' : 'false'});
         }, count: 2)),
         when: (response) => response.headers['retry'] == 'true',
         delay: (_) => Duration.zero);
@@ -65,7 +71,8 @@ void main() {
           if (count < 2) throw StateError('oh no');
           return Response('', 200);
         }, count: 2)),
-        whenError: (error, _) => error is StateError && error.message == 'oh no',
+        whenError: (error, _) =>
+            error is StateError && error.message == 'oh no',
         delay: (_) => Duration.zero);
 
     final response = await client.get(Uri.http('example.org', ''));
@@ -73,19 +80,28 @@ void main() {
   });
 
   test("doesn't retry a request where whenError() returns false", () async {
-    final client = RetryClient(MockClient(expectAsync1((request) async => throw StateError('oh no'))), whenError: (error, _) => error == 'oh yeah', delay: (_) => Duration.zero);
+    final client = RetryClient(
+        MockClient(expectAsync1((request) async => throw StateError('oh no'))),
+        whenError: (error, _) => error == 'oh yeah',
+        delay: (_) => Duration.zero);
 
-    expect(client.get(Uri.http('example.org', '')), throwsA(isStateError.having((e) => e.message, 'message', 'oh no')));
+    expect(client.get(Uri.http('example.org', '')),
+        throwsA(isStateError.having((e) => e.message, 'message', 'oh no')));
   });
 
   test('retries three times by default', () async {
-    final client = RetryClient(MockClient(expectAsync1((_) async => Response('', 503), count: 4)), delay: (_) => Duration.zero);
+    final client = RetryClient(
+        MockClient(expectAsync1((_) async => Response('', 503), count: 4)),
+        delay: (_) => Duration.zero);
     final response = await client.get(Uri.http('example.org', ''));
     expect(response.statusCode, equals(503));
   });
 
   test('retries the given number of times', () async {
-    final client = RetryClient(MockClient(expectAsync1((_) async => Response('', 503), count: 13)), retries: 12, delay: (_) => Duration.zero);
+    final client = RetryClient(
+        MockClient(expectAsync1((_) async => Response('', 503), count: 13)),
+        retries: 12,
+        delay: (_) => Duration.zero);
     final response = await client.get(Uri.http('example.org', ''));
     expect(response.statusCode, equals(503));
   });
@@ -156,7 +172,11 @@ void main() {
 
             return Response('', 503);
           }, count: 4)),
-          const [Duration(seconds: 1), Duration(minutes: 1), Duration(seconds: 12)]);
+          const [
+            Duration(seconds: 1),
+            Duration(minutes: 1),
+            Duration(seconds: 12)
+          ]);
 
       expect(client.get(Uri.http('example.org', '')), completes);
       fake.elapse(const Duration(minutes: 10));
@@ -165,7 +185,8 @@ void main() {
 
   test('calls onRetry for each retry', () async {
     var count = 0;
-    final client = RetryClient(MockClient(expectAsync1((_) async => Response('', 503), count: 3)),
+    final client = RetryClient(
+        MockClient(expectAsync1((_) async => Response('', 503), count: 3)),
         retries: 2,
         delay: (_) => Duration.zero,
         onRetry: expectAsync3((request, response, retryCount) {
@@ -206,7 +227,11 @@ void main() {
 
   test('async when, whenError and onRetry', () async {
     final client = RetryClient(
-      MockClient(expectAsync1((request) async => request.headers['Authorization'] != null ? Response('', 200) : Response('', 401), count: 2)),
+      MockClient(expectAsync1(
+          (request) async => request.headers['Authorization'] != null
+              ? Response('', 200)
+              : Response('', 401),
+          count: 2)),
       retries: 1,
       delay: (_) => Duration.zero,
       when: (response) async {

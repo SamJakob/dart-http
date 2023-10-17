@@ -38,7 +38,8 @@ void main() {
   test('#send a StreamedRequest', () async {
     var client = http.Client();
     var request = http.StreamedRequest('POST', serverUrl)
-      ..headers[HttpHeaders.contentTypeHeader] = 'application/json; charset=utf-8'
+      ..headers[HttpHeaders.contentTypeHeader] =
+          'application/json; charset=utf-8'
       ..headers[HttpHeaders.userAgentHeader] = 'Dart';
 
     var responseFuture = client.send(request);
@@ -75,7 +76,8 @@ void main() {
     var ioClient = HttpClient();
     var client = http_io.IOClient(ioClient);
     var request = http.StreamedRequest('POST', serverUrl)
-      ..headers[HttpHeaders.contentTypeHeader] = 'application/json; charset=utf-8'
+      ..headers[HttpHeaders.contentTypeHeader] =
+          'application/json; charset=utf-8'
       ..headers[HttpHeaders.userAgentHeader] = 'Dart';
 
     var responseFuture = client.send(request);
@@ -112,7 +114,8 @@ void main() {
     var client = http.Client();
     var url = Uri.http('http.invalid', '');
     var request = http.StreamedRequest('POST', url);
-    request.headers[HttpHeaders.contentTypeHeader] = 'application/json; charset=utf-8';
+    request.headers[HttpHeaders.contentTypeHeader] =
+        'application/json; charset=utf-8';
 
     expect(
         client.send(request),
@@ -137,7 +140,8 @@ void main() {
     var bytesString = await response.stream.bytesToString();
     client.close();
 
-    var headers = (jsonDecode(bytesString) as Map<String, dynamic>)['headers'] as Map<String, dynamic>;
+    var headers = (jsonDecode(bytesString) as Map<String, dynamic>)['headers']
+        as Map<String, dynamic>;
     var contentType = (headers['content-type'] as List).single;
     expect(contentType, startsWith('multipart/form-data; boundary='));
   });

@@ -26,7 +26,10 @@ void main() {
         ..sink.add([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
       unawaited(request.sink.close());
       var response = await request.send();
-      expect(await utf8.decodeStream(response.stream), parse(containsPair('headers', containsPair('content-length', ['10']))));
+      expect(
+          await utf8.decodeStream(response.stream),
+          parse(
+              containsPair('headers', containsPair('content-length', ['10']))));
     });
 
     test('defaults to sending no Content-Length', () async {
@@ -34,13 +37,15 @@ void main() {
       request.sink.add([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
       unawaited(request.sink.close());
       var response = await request.send();
-      expect(await utf8.decodeStream(response.stream), parse(containsPair('headers', isNot(contains('content-length')))));
+      expect(await utf8.decodeStream(response.stream),
+          parse(containsPair('headers', isNot(contains('content-length')))));
     });
   });
 
   // Regression test.
   test('.send() with a response with no content length', () async {
-    var request = http.StreamedRequest('GET', serverUrl.resolve('/no-content-length'));
+    var request =
+        http.StreamedRequest('GET', serverUrl.resolve('/no-content-length'));
     unawaited(request.sink.close());
     var response = await request.send();
     expect(await utf8.decodeStream(response.stream), equals('body'));
